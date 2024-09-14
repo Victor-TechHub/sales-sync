@@ -1,14 +1,17 @@
-import { Sidebar } from "@/components"
+import { Sidebar } from "@/components";
+import { AppContextProvider } from "@/context";
 
-const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-    return (
-        <section className="flex w-screen">
-            <Sidebar />
-            <div className="md:w-[82%] w-full py-3 px-2">
-                {children}
-            </div>
-        </section>
-    )
-}
+const DashboardLayout = ({
+  children,
+}: Readonly<{ children: React.ReactNode }>) => {
+  return (
+    <AppContextProvider>
+      <section className="flex w-screen">
+        <Sidebar />
+        <div className="md:w-[82%] w-full py-3 px-2">{children}</div>
+      </section>
+    </AppContextProvider>
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;

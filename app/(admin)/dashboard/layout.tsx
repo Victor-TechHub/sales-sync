@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components";
+import { Header, Sidebar } from "@/components";
 import { AppContextProvider } from "@/context";
 
 const DashboardLayout = ({
@@ -8,7 +8,10 @@ const DashboardLayout = ({
     <AppContextProvider>
       <section className="flex w-screen">
         <Sidebar />
-        <div className="md:w-[82%] w-full py-3 px-2">{children}</div>
+        <div className="md:w-[82%] w-full py-3 px-2">
+          <Header />
+          {children}
+        </div>
       </section>
     </AppContextProvider>
   );

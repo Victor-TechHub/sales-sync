@@ -28,7 +28,7 @@ const Sidebar = () => {
       >
         {/* logo */}
         <div className="flex font-medium pb-5 text-xl">
-          <p className="text-violet-500">Sales</p>
+          <p className="text-blue-500">Sales</p>
           <p className="text-stone-500">Sync</p>
         </div>
         <div className="bg-white flex gap-2 rounded-lg px-2 py-3 items-center shadow-md">

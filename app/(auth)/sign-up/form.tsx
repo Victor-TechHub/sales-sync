@@ -2,7 +2,6 @@
 
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { IoLockOpenOutline, IoLockClosedOutline } from "react-icons/io5";
-import { FiEye, FiEyeOff } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi2";
 import Input from "../components/Input";
 import { useForm } from "react-hook-form";

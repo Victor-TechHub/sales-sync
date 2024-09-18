@@ -2,9 +2,9 @@ import Image from "next/image";
 import { StepsTitle } from "../components";
 import { Divider, Table } from "antd";
 import { CiEdit } from "react-icons/ci";
-import { useAppContext } from "@/context";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+// import { useAppContext } from "@/context";
+// import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
 
 const dataSource = [
   {
@@ -40,14 +40,14 @@ const columns = [
 ];
 
 const Review = () => {
-  const { addProductSuccess } = useAppContext();
-  const router = useRouter();
+  // const { addProductSuccess } = useAppContext();
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (addProductSuccess) {
-      router.replace("/add-product/result");
-    }
-  }, [addProductSuccess]);
+  // useEffect(() => {
+  //   if (addProductSuccess) {
+  //     router.replace("/add-product/result");
+  //   }
+  // }, [addProductSuccess]);
 
   return (
     <section>

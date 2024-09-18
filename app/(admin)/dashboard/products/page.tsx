@@ -32,7 +32,7 @@ const items: TabsProps["items"] = [
         </span>
       </div>
     ),
-    children: "Content of Tab Pane 2",
+    children: <ProductTable />,
   },
   {
     key: "disabled",
@@ -44,7 +44,7 @@ const items: TabsProps["items"] = [
         </span>
       </div>
     ),
-    children: "Content of Tab Pane 3",
+    children: <ProductTable />,
   },
 ];
 

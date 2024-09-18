@@ -1,5 +1,8 @@
-import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
+"use client";
 
+import { Skeleton } from "antd";
+import { useEffect, useState } from "react";
+import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 interface AnalyticsCardProps {
   title: string;
   amount: string;
@@ -9,6 +12,14 @@ interface AnalyticsCardProps {
 }
 
 const AnalyticsCard = (props: AnalyticsCardProps) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   const { title, amount, percentageRise, percentageFall, interval } = props;
 
   const PercentagesRiseAndFall = () => (
@@ -26,7 +37,9 @@ const AnalyticsCard = (props: AnalyticsCardProps) => {
       )}
     </>
   );
-  return (
+  return isLoading ? (
+    <Skeleton active />
+  ) : (
     <div className="border rounded-lg flex-1 md:w-0 flex flex-col gap-4 overflow-clip">
       <div className="flex items-center justify-between p-3">
         <div>

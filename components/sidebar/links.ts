@@ -14,8 +14,8 @@ export const generalLinks = [
   },
   {
     icon: BsShop,
-    href: "/dashboard/shop",
-    name: "Shop Analyzer",
+    href: "/dashboard/products",
+    name: "Products",
   },
   {
     icon: BsFileEarmarkText,

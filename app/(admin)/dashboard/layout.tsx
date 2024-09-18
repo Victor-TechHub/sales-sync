@@ -8,7 +8,7 @@ const DashboardLayout = ({
     <AppContextProvider>
       <section className="flex w-screen">
         <Sidebar />
-        <div className="md:w-[82%] w-full py-3 px-2">
+        <div className="md:w-[82%] w-full py-3 px-7">
           <Header />
           {children}
         </div>

@@ -31,6 +31,7 @@ const Sidebar = () => {
           <p className="text-blue-500">Sales</p>
           <p className="text-stone-500">Sync</p>
         </div>
+        {/* end of logo */}
         <div className="bg-white flex gap-2 rounded-lg px-2 py-3 items-center shadow-md">
           <RxDashboard size={16} />
           <span>Dashboard</span>
@@ -56,6 +57,7 @@ const Sidebar = () => {
                 <p className="text-violet-500">Sales</p>
                 <p className="text-stone-500">Sync</p>
               </div>
+              {/* end of logo */}
               <i>
                 <FaRegCircleXmark
                   className="size-6 cursor-pointer hover:text-red-500"

@@ -4,6 +4,7 @@ import { Popconfirm } from "antd";
 import { useRouter } from "next/navigation";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
+import { message } from "antd";
 
 interface StepsButtonsProps {
   previousStep: () => void;
@@ -20,6 +21,46 @@ const StepsButtons = ({
 }: StepsButtonsProps) => {
   const router = useRouter();
   const { handleAddProduct } = useAppContext();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const addProductHandler = () => {
+    const key = "updatable";
+    try {
+      handleAddProduct();
+      messageApi.open({
+        key,
+        type: "loading",
+        content: "Loading...",
+      });
+      setTimeout(() => {
+        messageApi.open({
+          key,
+          type: "success",
+          content: "Product was successfully added!",
+          duration: 3,
+        });
+      }, 1000);
+      setTimeout(() => {
+        router.replace("/dashboard/products");
+      }, 3000);
+    } catch (err) {
+      console.log(err);
+      messageApi.open({
+        key,
+        type: "loading",
+        content: "Loading...",
+      });
+      setTimeout(() => {
+        messageApi.open({
+          key,
+          type: "error",
+          content: "Oops! something went wrong",
+          duration: 3,
+        });
+      }, 1000);
+    }
+  };
+
   return (
     <section className="absolute -bottom-[400px] w-full justify-between flex items-center gap-3">
       <Popconfirm
@@ -53,18 +94,20 @@ const StepsButtons = ({
           </button>
         )}
         {isLastStep && (
-          <button
-            onClick={handleAddProduct}
-            type="button"
-            className="bg-stone-950 hover:bg-stone-800 transition-all flex items-center gap-2 text-white rounded-3xl px-4 py-3"
-          >
-            Add Product
-            <IoCheckmarkDone size={18} />
-          </button>
+          <>
+            {contextHolder}
+            <button
+              onClick={addProductHandler}
+              type="button"
+              className="bg-stone-950 hover:bg-stone-800 transition-all flex items-center gap-2 text-white rounded-3xl px-4 py-3"
+            >
+              Add Product
+              <IoCheckmarkDone size={18} />
+            </button>
+          </>
         )}
       </div>
     </section>
   );
 };
-
 export default StepsButtons;

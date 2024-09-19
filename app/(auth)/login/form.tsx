@@ -22,7 +22,9 @@ const Form = () => {
   });
   const onsubmit = async (data: loginForm) => {
     try {
-      setIspending(true);
+      setTimeout(() => {
+        setIspending(true);
+      }, 2 * 1000);
       await handleLogin(data);
       reset();
       setIspending(false);

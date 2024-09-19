@@ -23,7 +23,9 @@ const Form = () => {
   });
   const onsubmit = async (data: signUpForm) => {
     try {
-      setIspending(true);
+      setTimeout(() => {
+        setIspending(true);
+      }, 2 * 1000);
       await handleSignUp(data);
       reset();
       setIspending(false);

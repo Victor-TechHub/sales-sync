@@ -3,7 +3,7 @@
 import { FieldError, FieldValues, UseFormRegister } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 interface InputProps<T extends FieldValues> {
   name: keyof T;
@@ -23,12 +23,11 @@ const Input = <T extends FieldValues>({
   error,
 }: InputProps<T>) => {
   const [inputType, setInputType] = useState(type);
+
   const toggleInputType = () => {
-    setInputType(inputType === "text" ? "password" : "text");
+    const newType = inputType === "password" ? "text" : "password";
+    setInputType(newType);
   };
-  useEffect(() => {
-    document.getElementById("input")?.setAttribute("type", inputType);
-  }, [inputType]);
 
   return (
     <div className="relative">
@@ -42,7 +41,7 @@ const Input = <T extends FieldValues>({
         </i>
         <input
           className="flex-1 bg-transparent py-3 px-2 outline-none"
-          type={type}
+          type={inputType}
           placeholder={placeholder}
           autoComplete="off"
           id="input"

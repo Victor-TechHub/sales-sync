@@ -2,13 +2,19 @@ import { z } from "zod";
 
 export const signUpSchema = z
   .object({
-    username: z.string().min(2, { message: "username is required" }),
+    username: z.string().min(1, { message: "username is required" }),
     email: z
       .string()
       .email()
       .endsWith(".com", { message: "only .com domains allowed" }),
-    password: z.string().min(6).max(12),
-    confirmPassword: z.string().min(6).max(12),
+    password: z
+      .string()
+      .min(6, { message: "password must contain at least 6 character(s)" })
+      .max(12, { message: "password must not exceed 12 character(s)" }),
+    confirmPassword: z
+      .string()
+      .min(6, { message: "password must contain at least 6 character(s)" })
+      .max(12, { message: "password must not exceed 12 character(s)" }),
   })
   .refine((form) => form.password !== form.confirmPassword, {
     message: "Passwords don't match",
@@ -20,7 +26,10 @@ export const loginSchema = z.object({
     .string()
     .email()
     .endsWith(".com", { message: "only .com domains allowed" }),
-  password: z.string().min(6).max(12),
+  password: z
+    .string()
+    .min(6, { message: "password must contain at least 6 character(s)" })
+    .max(12, { message: "password must not exceed 12 character(s)" }),
 });
 
 export type signUpForm = z.infer<typeof signUpSchema>;

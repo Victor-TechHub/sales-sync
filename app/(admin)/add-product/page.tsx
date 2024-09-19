@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Steps } from "antd";
 import useSteps from "@/app/(admin)/add-product/hooks/useSteps";
 import { Information, Pricing, Review } from "./index";
@@ -8,6 +8,8 @@ import { StepsButtons, PageHeader } from "./components";
 import { AppContextProvider } from "@/context";
 
 const AddProductPage = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  console.log(isMobile);
   const productSteps: React.ReactNode[] = [
     <Information key="info" />,
     <Pricing key="pricing" />,
@@ -23,6 +25,16 @@ const AddProductPage = () => {
     isLastStep,
   } = useSteps(productSteps);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 600px)");
+    const handleMediaChange = (e: any) => setIsMobile(e.matches);
+
+    handleMediaChange(mediaQuery); // Check the current state
+    mediaQuery.addEventListener("change", handleMediaChange);
+
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
+  }, []);
+
   const onChange = (value: number) => {
     setCurrent(value);
   };
@@ -31,12 +43,13 @@ const AddProductPage = () => {
     <AppContextProvider>
       <section className="px-16">
         <PageHeader />
-        <div className="flex gap-5 md:w-[60dvw] mx-auto">
+        <div className="flex md:flex-row flex-col gap-5 md:w-[60dvw] mx-auto">
+          {/* Mobile step*/}
           <Steps
-            className="w-1/4 pt-14"
+            className="pt-14 md:hidden"
             current={current}
             onChange={onChange}
-            direction="vertical"
+            direction="horizontal"
             items={[
               {
                 title: "Information",
@@ -49,7 +62,29 @@ const AddProductPage = () => {
               },
             ]}
           />
-          <form className="relative w-3/4 h-[400px]">
+          {/* end of mobile step */}
+          <Steps
+            className={`w-1/4 pt-14`}
+            current={current}
+            onChange={onChange}
+            direction="vertical"
+            style={{
+              display: isMobile ? "none" : "block",
+            }}
+            items={[
+              {
+                title: "Information",
+              },
+              {
+                title: "Pricing",
+              },
+              {
+                title: "Review",
+              },
+            ]}
+          />
+
+          <form className="relative w-full md:w-3/4 h-[400px]">
             {steps[current]}
             <StepsButtons
               previousStep={previousStep}

@@ -3,7 +3,7 @@
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { IoLockOpenOutline } from "react-icons/io5";
 import Link from "next/link";
-import Input from "../components/Input";
+import { InputField } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginForm, loginSchema } from "@/utils/validation";
@@ -34,7 +34,7 @@ const Form = () => {
   };
   return (
     <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col gap-5">
-      <Input
+      <InputField
         register={register}
         name="email"
         type="email"
@@ -42,7 +42,7 @@ const Form = () => {
         placeholder="Email"
         error={errors.email}
       />
-      <Input
+      <InputField
         register={register}
         name="password"
         placeholder="Password"

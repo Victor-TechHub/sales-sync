@@ -1,20 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Steps } from "antd";
 import useSteps from "@/app/(admin)/add-product/hooks/useSteps";
 import { Information, Pricing, Review } from "./index";
 import { StepsButtons, PageHeader } from "./components";
 import { AppContextProvider } from "@/context";
+import useMediaQuery from "./hooks/useMediaQuery";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { addProductForm, addProductSchema } from "@/utils/validation";
 
 const AddProductPage = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  console.log(isMobile);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<addProductForm>({
+    resolver: zodResolver(addProductSchema),
+  });
+
   const productSteps: React.ReactNode[] = [
-    <Information key="info" />,
-    <Pricing key="pricing" />,
+    <Information errors={errors} register={register} key="info" />,
+    <Pricing errors={errors} register={register} key="pricing" />,
     <Review key="review" />,
   ];
+
   const {
     steps,
     current,
@@ -25,58 +36,39 @@ const AddProductPage = () => {
     isLastStep,
   } = useSteps(productSteps);
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 600px)");
-    const handleMediaChange = (e: any) => setIsMobile(e.matches);
+  const isMobile = useMediaQuery();
 
-    handleMediaChange(mediaQuery); // Check the current state
-    mediaQuery.addEventListener("change", handleMediaChange);
-
-    return () => mediaQuery.removeEventListener("change", handleMediaChange);
-  }, []);
+  const onsumbit = (values: addProductForm) => {
+    console.log(values);
+  };
 
   const onChange = (value: number) => {
     setCurrent(value);
   };
+
+  const hasInformationError =
+    errors.name || errors.description || errors.brand || errors.stockQty;
+  const hasPriceError =
+    errors.basePrice || errors.discount || errors.finalPrice;
 
   return (
     <AppContextProvider>
       <section className="px-16">
         <PageHeader />
         <div className="flex md:flex-row flex-col gap-5 md:w-[60dvw] mx-auto">
-          {/* Mobile step*/}
           <Steps
-            className="pt-14 md:hidden"
+            className={`md:w-1/4 w-full pt-0 md:pt-14`}
             current={current}
             onChange={onChange}
-            direction="horizontal"
+            direction={isMobile ? "horizontal" : "vertical"}
             items={[
               {
                 title: "Information",
+                status: hasInformationError ? "error" : undefined,
               },
               {
                 title: "Pricing",
-              },
-              {
-                title: "Review",
-              },
-            ]}
-          />
-          {/* end of mobile step */}
-          <Steps
-            className={`w-1/4 pt-14`}
-            current={current}
-            onChange={onChange}
-            direction="vertical"
-            style={{
-              display: isMobile ? "none" : "block",
-            }}
-            items={[
-              {
-                title: "Information",
-              },
-              {
-                title: "Pricing",
+                status: hasPriceError ? "error" : undefined,
               },
               {
                 title: "Review",
@@ -84,13 +76,17 @@ const AddProductPage = () => {
             ]}
           />
 
-          <form className="relative w-full md:w-3/4 h-[400px]">
+          <form
+            onSubmit={handleSubmit(onsumbit)}
+            className="relative w-full md:w-3/4 h-full md:h-[400px]"
+          >
             {steps[current]}
             <StepsButtons
               previousStep={previousStep}
               nextStep={nextStep}
               isFirstStep={isFirstStep}
               isLastStep={isLastStep}
+              errors={errors}
             />
           </form>
         </div>

@@ -6,15 +6,15 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import React, { useState } from "react";
 
 interface InputProps<T extends FieldValues> {
-  name: keyof T;
-  prefixIcon: React.ReactNode;
+  name: keyof T | string;
+  prefixIcon?: React.ReactNode;
   type?: string;
   placeholder: string;
   register: UseFormRegister<T>;
   error: FieldError | undefined;
 }
 
-const Input = <T extends FieldValues>({
+const InputField = <T extends FieldValues>({
   name,
   prefixIcon,
   type = "text",
@@ -32,15 +32,19 @@ const Input = <T extends FieldValues>({
   return (
     <div className="relative">
       <fieldset className="bg-stone-100 flex items-center rounded-lg">
-        <i
-          className={`bg-[#fff] p-3 rounded-lg m-2 ${
-            error ? "text-red-500" : "text-blue-500"
-          } transition-all duration-700`}
-        >
-          {prefixIcon}
-        </i>
+        {prefixIcon && (
+          <i
+            className={`bg-[#fff] p-3 rounded-lg m-2 ${
+              error ? "text-red-500" : "text-blue-500"
+            } transition-all duration-700`}
+          >
+            {prefixIcon}
+          </i>
+        )}
         <input
-          className="flex-1 bg-transparent py-3 px-2 outline-none"
+          className={`flex-1 bg-transparent py-3 px-2 outline-none ${
+            error && "placeholder:text-red-400"
+          }`}
           type={inputType}
           placeholder={placeholder}
           autoComplete="off"
@@ -82,4 +86,4 @@ const Input = <T extends FieldValues>({
   );
 };
 
-export default Input;
+export default InputField;

@@ -1,16 +1,18 @@
-import { useAppContext } from "@/context";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
 import { useRouter } from "next/navigation";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { message } from "antd";
+import { FieldErrors } from "react-hook-form";
+import { useEffect, useState } from "react";
 
 interface StepsButtonsProps {
   previousStep: () => void;
   nextStep: () => void;
   isFirstStep: boolean;
   isLastStep: boolean;
+  errors: FieldErrors;
 }
 
 const StepsButtons = ({
@@ -18,33 +20,24 @@ const StepsButtons = ({
   nextStep,
   isFirstStep,
   isLastStep,
+  errors,
 }: StepsButtonsProps) => {
   const router = useRouter();
-  const { handleAddProduct } = useAppContext();
   const [messageApi, contextHolder] = message.useMessage();
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    console.log(errors, error);
+    if (!errors) {
+      setError(false);
+      return;
+    }
+    setError(true);
+  }, [errors]);
 
   const addProductHandler = () => {
     const key = "updatable";
-    try {
-      handleAddProduct();
-      messageApi.open({
-        key,
-        type: "loading",
-        content: "Loading...",
-      });
-      setTimeout(() => {
-        messageApi.open({
-          key,
-          type: "success",
-          content: "Product was successfully added!",
-          duration: 3,
-        });
-      }, 1000);
-      setTimeout(() => {
-        router.replace("/dashboard/products");
-      }, 3000);
-    } catch (err) {
-      console.log(err);
+    if (error) {
       messageApi.open({
         key,
         type: "loading",
@@ -54,15 +47,33 @@ const StepsButtons = ({
         messageApi.open({
           key,
           type: "error",
-          content: "Oops! something went wrong",
-          duration: 3,
+          content:
+            "Oops! It looks like some fields are missing. Please double-check and fill them in.",
+          duration: 5,
         });
-      }, 1000);
+      }, 2000);
+      return;
     }
+    messageApi.open({
+      key,
+      type: "loading",
+      content: "Loading...",
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: "success",
+        content: "Product was successfully added!",
+        duration: 3,
+      });
+    }, 2000);
+    // setTimeout(() => {
+    //   router.replace("/dashboard/products");
+    // }, 3000);
   };
 
   return (
-    <section className="absolute -bottom-[400px] w-full justify-between flex items-center gap-3">
+    <section className="absolute md:-bottom-[400px] -bottom-[100px] w-full justify-between flex items-center gap-3">
       <Popconfirm
         title="Cancel Product"
         description="Are you sure you want to discard product?"
@@ -98,7 +109,7 @@ const StepsButtons = ({
             {contextHolder}
             <button
               onClick={addProductHandler}
-              type="button"
+              type="submit"
               className="bg-stone-950 hover:bg-stone-800 transition-all flex items-center gap-2 text-white rounded-3xl px-4 py-3"
             >
               Add Product

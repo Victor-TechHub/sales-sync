@@ -3,7 +3,7 @@
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { IoLockOpenOutline, IoLockClosedOutline } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi2";
-import Input from "../components/Input";
+import { InputField } from "@/components";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpForm, signUpSchema } from "@/utils/validation";
@@ -35,14 +35,14 @@ const Form = () => {
   };
   return (
     <form onSubmit={handleSubmit(onsubmit)} className="flex flex-col gap-5">
-      <Input
+      <InputField
         name="username"
         prefixIcon={<HiOutlineUser size={17} />}
         placeholder="Username"
         register={register}
         error={errors.username}
       />
-      <Input
+      <InputField
         name="email"
         prefixIcon={<MdOutlineAlternateEmail size={17} />}
         placeholder="Email"
@@ -50,7 +50,7 @@ const Form = () => {
         register={register}
         error={errors.email}
       />
-      <Input
+      <InputField
         name="password"
         prefixIcon={<IoLockOpenOutline />}
         placeholder="Password"
@@ -58,7 +58,7 @@ const Form = () => {
         register={register}
         error={errors.password}
       />
-      <Input
+      <InputField
         name="confirmPassword"
         prefixIcon={<IoLockClosedOutline size={17} />}
         placeholder="Confirm Password"

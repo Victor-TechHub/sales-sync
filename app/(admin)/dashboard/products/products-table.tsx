@@ -78,7 +78,7 @@ const ProductsTable = () => {
         rowSelection={rowSelection}
         columns={columns}
         dataSource={dataSource}
-        size="middle"
+        size="small"
       />
     </Flex>
   );

@@ -48,12 +48,17 @@ const items: TabsProps["items"] = [
   },
 ];
 
-const Shop = () => {
+const Products = () => {
   return (
-    <section className="mt-5">
-      <Tabs defaultActiveKey="All" items={items} onChange={onChange} />
+    <section className="mt-3">
+      <Tabs
+        defaultActiveKey="All"
+        items={items}
+        onChange={onChange}
+        className="flex md:block md:w-auto w-full items-center"
+      />
     </section>
   );
 };
 
-export default Shop;
+export default Products;

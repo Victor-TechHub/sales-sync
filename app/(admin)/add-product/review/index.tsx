@@ -11,7 +11,7 @@ const dataSource = [
     key: "1",
     price: "200,000 USD",
     discount: "10%",
-    "final-price": "190,000",
+    "final-price": "190,000 USD",
     "stock-quantity": "15 units",
   },
 ];
